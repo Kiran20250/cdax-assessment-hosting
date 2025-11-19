@@ -4,6 +4,7 @@ package com.example.cdaxVideo.Entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "users")   // 👈 FIX
 public class User {
 
     @Id
