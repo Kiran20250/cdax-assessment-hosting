@@ -117,7 +117,6 @@ public class AuthController {
             response.put("firstName", user.getFirstName());
             response.put("lastName", user.getLastName());
             response.put("mobile", user.getMobile());
-            response.put("subscribed", user.isSubscribed());
             return ResponseEntity.ok(response);
         } else {
             response.put("status", "error");
@@ -126,20 +125,20 @@ public class AuthController {
         }
     }
 
-    // -------- Toggle Subscription ----------
-    @PostMapping("/toggleSubscription")
-    public ResponseEntity<Map<String, Object>> toggleSubscription(@RequestParam String email) {
-        boolean updated = authService.toggleSubscription(email);
-        Map<String, Object> response = new HashMap<>();
-
-        if (updated) {
-            response.put("status", "success");
-            response.put("message", "Subscription status updated");
-        } else {
-            response.put("status", "error");
-            response.put("message", "User not found");
-        }
-
-        return ResponseEntity.ok(response);
-    }
+//    // -------- Toggle Subscription ----------
+//    @PostMapping("/toggleSubscription")
+//    public ResponseEntity<Map<String, Object>> toggleSubscription(@RequestParam String email) {
+//        boolean updated = authService.toggleSubscription(email);
+//        Map<String, Object> response = new HashMap<>();
+//
+//        if (updated) {
+//            response.put("status", "success");
+//            response.put("message", "Subscription status updated");
+//        } else {
+//            response.put("status", "error");
+//            response.put("message", "User not found");
+//        }
+//
+//        return ResponseEntity.ok(response);
+//    }
 }

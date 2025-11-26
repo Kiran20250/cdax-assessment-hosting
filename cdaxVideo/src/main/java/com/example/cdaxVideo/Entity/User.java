@@ -25,19 +25,19 @@ public class User {
     @Transient
     private String cpassword;
 
-    private boolean subscribed = false; // Default: not subscribed
-
-
-
-    public boolean isSubscribed() {
-
-        return subscribed;
-    }
-
-    public void setSubscribed(boolean subscribed) {
-
-        this.subscribed = subscribed;
-    }
+//    private boolean subscribed = false; // Default: not subscribed
+//
+//
+//
+//    public boolean isSubscribed() {
+//
+//        return subscribed;
+//    }
+//
+//    public void setSubscribed(boolean subscribed) {
+//
+//        this.subscribed = subscribed;
+//    }
 
     // Getters and Setters
     public Long getId() { return id; }

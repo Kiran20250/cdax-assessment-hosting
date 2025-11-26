@@ -15,6 +15,11 @@ public class CourseService {
     @Autowired private VideoRepository videoRepository;
     @Autowired private AssessmentRepository assessmentRepository;
     @Autowired private QuestionRepository questionRepository;
+    @Autowired
+    private UserCoursePurchaseRepository purchaseRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     // ----- COURSE -----
     public Course saveCourse(Course course) {
@@ -92,4 +97,41 @@ public class CourseService {
     public List<Question> getQuestionsByAssessmentId(Long assessmentId) {
         return questionRepository.findByAssessmentId(assessmentId);
     }
+
+    public String purchaseCourse(Long userId, Long courseId) {
+
+        boolean alreadyExists = purchaseRepository.existsByUserIdAndCourseId(userId, courseId);
+        if (alreadyExists) {
+            return "Already purchased";
+        }
+
+        UserCoursePurchase ucp = new UserCoursePurchase();
+        ucp.setUser(userRepository.findById(userId).orElseThrow());
+        ucp.setCourse(courseRepository.findById(courseId).orElseThrow());
+
+        purchaseRepository.save(ucp);
+
+        return "Purchase successful";
+    }
+    public List<Course> getCoursesForUser(Long userId) {
+
+        List<Course> courses = getAllCoursesWithModulesAndVideos();
+
+        for (Course c : courses) {
+            boolean purchased = purchaseRepository.existsByUserIdAndCourseId(userId, c.getId());
+            c.setPurchased(purchased);   // sets isSubscribed TRUE/FALSE
+        }
+
+        return courses;
+    }
+    public Course getCourseForUser(Long userId, Long courseId) {
+
+        Course course = getCourseByIdWithModulesAndVideos(courseId).orElseThrow();
+
+        boolean purchased = purchaseRepository.existsByUserIdAndCourseId(userId, course.getId());
+        course.setPurchased(purchased);
+
+        return course;
+    }
+
 }

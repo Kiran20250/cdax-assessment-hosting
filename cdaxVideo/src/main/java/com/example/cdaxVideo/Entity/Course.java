@@ -1,6 +1,7 @@
 package com.example.cdaxVideo.Entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,19 @@ public class Course {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Module> modules = new ArrayList<>();
+
+
+
+
+
+    @JsonProperty("isSubscribed")
+    @Transient
+    private boolean purchased;
+
+    public boolean isPurchased() { return purchased; }
+    public void setPurchased(boolean purchased) { this.purchased = purchased; }
+
+
 
     // Getters and Setters
     public Long getId() {

@@ -24,23 +24,30 @@ public class CourseController {
     }
 
     @GetMapping("/courses")
-    public ResponseEntity<Map<String, Object>> getCourses() {
-        List<Course> list = courseService.getAllCoursesWithModulesAndVideos();
+    public ResponseEntity<Map<String, Object>> getCourses(@RequestParam Long userId) {
+
+        List<Course> list = courseService.getCoursesForUser(userId);
+
         Map<String, Object> response = new HashMap<>();
         response.put("data", list);
+
         return ResponseEntity.ok(response);
     }
 
+
     @GetMapping("/courses/{id}")
-    public ResponseEntity<Map<String, Object>> getCourse(@PathVariable Long id) {
-        return courseService.getCourseByIdWithModulesAndVideos(id)
-                .map(course -> {
-                    Map<String, Object> response = new HashMap<>();
-                    response.put("data", course);
-                    return ResponseEntity.ok(response);
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Map<String, Object>> getCourse(
+            @PathVariable Long id,
+            @RequestParam Long userId) {
+
+        Course course = courseService.getCourseForUser(userId, id);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", course);
+
+        return ResponseEntity.ok(response);
     }
+
 
     // ---------------------- MODULE APIs ----------------------
     @PostMapping("/modules")
@@ -131,6 +138,19 @@ public class CourseController {
         response.put("questions", list);
 
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/purchase")
+    public ResponseEntity<Map<String, Object>> purchaseCourse(
+            @RequestParam Long userId,
+            @RequestParam Long courseId) {
+
+        String result = courseService.purchaseCourse(userId, courseId);
+
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("message", result);
+
+        return ResponseEntity.ok(resp);
     }
 
 }

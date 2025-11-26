@@ -62,15 +62,15 @@ public class AuthService {
     /**
      * Toggle the subscribed status of a user.
      */
-    public boolean toggleSubscription(String email) {
-        Optional<User> optionalUser = userRepository.findByEmail(email);
-
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            user.setSubscribed(!user.isSubscribed());
-            userRepository.save(user);
-            return true;
-        }
-        return false;
-    }
+//    public boolean toggleSubscription(String email) {
+//        Optional<User> optionalUser = userRepository.findByEmail(email);
+//
+//        if (optionalUser.isPresent()) {
+//            User user = optionalUser.get();
+//            user.setSubscribed(!user.isSubscribed());
+//            userRepository.save(user);
+//            return true;
+//        }
+//        return false;
+//    }
 }
